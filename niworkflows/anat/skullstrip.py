@@ -34,11 +34,11 @@ quality-assessment-protocol/blob/master/qap/anatomical_preproc.py#L105>`_.
         name='inu_n4')
 
     sstrip = pe.Node(afni.SkullStrip(outputtype='NIFTI_GZ'), name='skullstrip')
-    fill_holes = pe.Node(afni.MaskTool(fill_holes=True, outputtype='NIFTI_GZ', datum='byte'),
-                         name='fill_holes')
     sstrip_orig_vol = pe.Node(afni.Calc(
         expr='a*step(b)', outputtype='NIFTI_GZ'), name='sstrip_orig_vol')
     binarize = pe.Node(fsl.Threshold(args='-bin', thresh=1.e-3), name='binarize')
+    fill_holes = pe.Node(afni.MaskTool(fill_holes=True, outputtype='NIFTI_GZ', datum='byte'),
+                         name='fill_holes')
 
     if unifize:
         # Add two unifize steps, pre- and post- skullstripping.
@@ -65,11 +65,11 @@ quality-assessment-protocol/blob/master/qap/anatomical_preproc.py#L105>`_.
 
     # Remaining connections
     workflow.connect([
-        (sstrip, fill_holes, [('out_file', 'in_file')]),
-        (fill_holes, sstrip_orig_vol, [('out_file', 'in_file_b')]),
+        (sstrip, sstrip_orig_vol, [('out_file', 'in_file_b')]),
         (inputnode, inu_n4, [('in_file', 'input_image')]),
         (sstrip_orig_vol, binarize, [('out_file', 'in_file')]),
-        (binarize, outputnode, [('out_file', 'out_mask')]),
+        (binarize, fill_holes, [('out_file', 'in_file')]),
+        (fill_holes, outputnode, [('out_file', 'out_mask')]),
         (inu_n4, outputnode, [('bias_image', 'bias_image')]),
     ])
     return workflow
