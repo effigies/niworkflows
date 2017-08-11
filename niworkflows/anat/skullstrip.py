@@ -33,7 +33,8 @@ quality-assessment-protocol/blob/master/qap/anatomical_preproc.py#L105>`_.
         n_procs=n4_nthreads,
         name='inu_n4')
 
-    sstrip = pe.Node(afni.SkullStrip(outputtype='NIFTI_GZ'), name='skullstrip')
+    sstrip = pe.Node(afni.SkullStrip(outputtype='NIFTI_GZ', args='-blur_fwhm 4 -use_skull'),
+                     name='skullstrip')
     sstrip_orig_vol = pe.Node(afni.Calc(
         expr='a*step(b)', outputtype='NIFTI_GZ'), name='sstrip_orig_vol')
     binarize = pe.Node(fsl.Threshold(args='-bin', thresh=1.e-3), name='binarize')
