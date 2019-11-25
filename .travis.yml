@@ -1,6 +1,6 @@
 # vim ft=yaml
-dist: xenial
-sudo: true
+os: linux
+dist: bionic
 language: python
 
 cache:
@@ -73,6 +73,8 @@ before_script:
   - travis_retry python -m pip install "niworkflows[$CHECK_TYPE]"
   - |
     if [ "$CHECK_TYPE" == "test" ]; then
+        travis_retry bash <(wget -q -O- http://neuro.debian.net/_files/neurodebian-travis.sh);
+        apt-get install ants
         mkdir -p $HOME/.cache/stanford-crn
         curl -sSL  "http://github.com/chrisfilo/BIDS-examples-1/archive/enh/ds054.tar.gz" |
             tar xvzf - -C $HOME/.cache/stanford-crn
