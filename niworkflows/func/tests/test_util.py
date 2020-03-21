@@ -74,7 +74,7 @@ def test_masking(input_fname, expected_fname):
         base_dir.mkdir(parents=True, exist_ok=True)
         bold_reference_wf.base_dir = str(base_dir)
 
-    out_fname = fname_presuffix(basename, suffix='_masks.svg', use_ext=False,
+    out_fname = fname_presuffix(basename, suffix='_mask.svg', use_ext=False,
                                 newpath=str(newpath))
     newpath.mkdir(parents=True, exist_ok=True)
 
