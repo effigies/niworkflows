@@ -325,7 +325,7 @@ def init_enhance_and_skullstrip_bold_wf(
                 'MNI152NLin2009cAsym', resolution=1, desc='brain', suffix='probseg'))),
             name='map_brainmask'
         )
-        binarize_mask = pe.Node(Binarize(thresh_low=0.75), name='binarize_mask')
+        binarize_mask = pe.Node(Binarize(thresh_low=0.5), name='binarize_mask')
         workflow.connect([
             (inputnode, init_aff, [('in_file', 'moving_image')]),
             (inputnode, map_brainmask, [('in_file', 'reference_image')]),
