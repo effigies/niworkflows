@@ -322,7 +322,7 @@ def init_enhance_and_skullstrip_bold_wf(
             float=True,
             # Use the higher resolution and probseg for numerical stability in rounding
             input_image=str(get_template(
-                'MNI152NLin2009cAsym', resolution=1, desc='brain', suffix='probseg'))),
+                'MNI152NLin2009cAsym', resolution=1, label='brain', suffix='probseg'))),
             name='map_brainmask'
         )
         binarize_mask = pe.Node(Binarize(thresh_low=0.5), name='binarize_mask')
