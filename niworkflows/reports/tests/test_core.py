@@ -242,7 +242,8 @@ def test_generated_reportlets(bids_sessions, ordering):
         subject_id="01",
         packagename="fmriprep",
     )
-    settings = load(importlib_resources.read_text("niworkflows.reports", "default.yml"))
+    default_yml = importlib_resources.files("niworkflows.reports") / "default.yml"
+    settings = load(default_yml.read_text())
     # change settings to only include some missing ordering
     settings["sections"][3]["ordering"] = ordering
     report.index(settings["sections"])
