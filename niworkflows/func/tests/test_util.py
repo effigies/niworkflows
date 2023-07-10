@@ -45,7 +45,7 @@ if datapath:
 
     for ds in datapath.glob("ds*/"):
         paths = [p for p in ds.glob("*_bold.nii.gz") if p.exists()]
-        subjects = set([p.name.replace("sub-", "").split("_")[0] for p in paths])
+        subjects = {p.name.replace("sub-", "").split("_")[0] for p in paths}
 
         for sub in subjects:
             subject_data = [p for p in paths if p.name.startswith(f"sub-{sub}")]

@@ -67,14 +67,14 @@ class CopyXForm(SimpleInterface):
         if isinstance(self._fields, str):
             self._fields = [self._fields]
 
-        super(CopyXForm, self).__init__(**inputs)
+        super().__init__(**inputs)
 
         add_traits(self.inputs, self._fields)
         for f in set(self._fields).intersection(list(inputs.keys())):
             setattr(self.inputs, f, inputs[f])
 
     def _outputs(self):
-        base = super(CopyXForm, self)._outputs()
+        base = super()._outputs()
         if self._fields:
             fields = self._fields.copy()
             if "in_file" in fields:
@@ -315,7 +315,7 @@ class ValidateImage(SimpleInterface):
     Analyses of this dataset MAY BE INVALID.
 </p>
 """
-        snippet = '<h3 class="elem-title">%s</h3>\n%s\n' % (warning_txt, description)
+        snippet = f'<h3 class="elem-title">{warning_txt}</h3>\n{description}\n'
         # Store new file and report
         img.to_filename(out_fname)
         with open(out_report, "w") as fobj:
@@ -543,10 +543,7 @@ class SanitizeImage(SimpleInterface):
             img.to_filename(out_fname)
 
         if warning_txt:
-            snippet = '<h3 class="elem-title">%s</h3>\n%s\n' % (
-                warning_txt,
-                description,
-            )
+            snippet = f'<h3 class="elem-title">{warning_txt}</h3>\n{description}\n'
             with open(out_report, "w") as fobj:
                 fobj.write(indent(snippet, "\t" * 3))
 

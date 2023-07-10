@@ -156,7 +156,7 @@ class KeySelect(BaseInterface):
 
         """
         # Call constructor
-        super(KeySelect, self).__init__(**inputs)
+        super().__init__(**inputs)
 
         # Handle and initiate fields
         if not fields:
@@ -201,7 +201,7 @@ class KeySelect(BaseInterface):
         if name in self._fields:
             if isinstance(new, str) or len(new) < 1:
                 raise ValueError(
-                    'Trying to set an invalid value (%s) for input "%s"' % (new, name)
+                    f'Trying to set an invalid value ({new}) for input "{name}"'
                 )
 
             if len(new) != len(self.inputs.keys):
@@ -222,7 +222,7 @@ class KeySelect(BaseInterface):
         return outputs
 
     def _outputs(self):
-        base = super(KeySelect, self)._outputs()
+        base = super()._outputs()
         base = add_traits(base, self._fields)
         return base
 
@@ -532,10 +532,10 @@ def _tsv2json(
     re_to_snake = r"(^.+?|.*?)((?<![_A-Z])[A-Z]|(?<![_0-9])[0-9]+)"
 
     def snake(match):
-        return "{}_{}".format(match.group(1).lower(), match.group(2).lower())
+        return f"{match.group(1).lower()}_{match.group(2).lower()}"
 
     def camel(match):
-        return "{}{}".format(match.group(1), match.group(2).upper())
+        return f"{match.group(1)}{match.group(2).upper()}"
 
     # from fmriprep
     def less_breakable(a_string):

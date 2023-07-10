@@ -206,7 +206,7 @@ class Reference:
         """
         if "cohort" not in self.spec:
             return self.space
-        return "%s:cohort-%s" % (self.space, self.spec["cohort"])
+        return f"{self.space}:cohort-{self.spec['cohort']}"
 
     @property
     def legacyname(self):

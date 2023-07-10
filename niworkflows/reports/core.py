@@ -42,7 +42,7 @@ except ValueError as e:
     if "Configuration 'figures' already exists" != str(e):
         raise
 
-PLURAL_SUFFIX = defaultdict(str("s").format, [("echo", "es")])
+PLURAL_SUFFIX = defaultdict("s".format, [("echo", "es")])
 SVG_SNIPPET = [
     """\
 <object class="svg-reportlet" type="image/svg+xml" data="./{0}">
@@ -83,7 +83,7 @@ class Smallest:
         return False
 
 
-class Element(object):
+class Element:
     """Just a basic component of a report"""
 
     def __init__(self, name, title=None):
@@ -318,7 +318,7 @@ class Report:
             self.out_dir = self.out_dir / self.packagename
 
         if self.subject_id is not None:
-            self.root = self.root / "sub-{}".format(self.subject_id)
+            self.root = self.root / f"sub-{self.subject_id}"
 
         if "template_path" in settings:
             self.template_path = config.parent / settings["template_path"]
@@ -386,7 +386,7 @@ class Report:
 
         # Populate errors section
         error_dir = (
-            self.out_dir / "sub-{}".format(self.subject_id) / "log" / self.run_uuid
+            self.out_dir / f"sub-{self.subject_id}" / "log" / self.run_uuid
         )
         if error_dir.is_dir():
             from ..utils.misc import read_crashfile

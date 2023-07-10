@@ -61,14 +61,14 @@ class FixHeaderApplyTransforms(ApplyTransforms):
 
     def _run_interface(self, runtime, correct_return_codes=(0,)):
         # Run normally
-        runtime = super(FixHeaderApplyTransforms, self)._run_interface(
+        runtime = super()._run_interface(
             runtime, correct_return_codes
         )
 
         _copyxform(
             self.inputs.reference_image,
             os.path.abspath(self._gen_filename("output_image")),
-            message="%s (niworkflows v%s)" % (self.__class__.__name__, __version__),
+            message=f"{self.__class__.__name__} (niworkflows v{__version__})",
         )
         return runtime
 
@@ -100,7 +100,7 @@ class FixHeaderRegistration(Registration):
 
     def _run_interface(self, runtime, correct_return_codes=(0,)):
         # Run normally
-        runtime = super(FixHeaderRegistration, self)._run_interface(
+        runtime = super()._run_interface(
             runtime, correct_return_codes
         )
 
@@ -110,7 +110,7 @@ class FixHeaderRegistration(Registration):
             _copyxform(
                 self.inputs.fixed_image[0],
                 os.path.abspath(out_file),
-                message="%s (niworkflows v%s)" % (self.__class__.__name__, __version__),
+                message=f"{self.__class__.__name__} (niworkflows v{__version__})",
             )
 
         # Inverse transform
@@ -119,7 +119,7 @@ class FixHeaderRegistration(Registration):
             _copyxform(
                 self.inputs.moving_image[0],
                 os.path.abspath(out_file),
-                message="%s (niworkflows v%s)" % (self.__class__.__name__, __version__),
+                message=f"{self.__class__.__name__} (niworkflows v{__version__})",
             )
 
         return runtime
@@ -143,12 +143,12 @@ class FixN4BiasFieldCorrection(VanillaN4):
         """Add a private property to keep the path to the right input."""
         self._input_image = None
         self._negative_values = False
-        super(FixN4BiasFieldCorrection, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def _format_arg(self, name, trait_spec, value):
         if name == "input_image":
             return trait_spec.argstr % self._input_image
-        return super(FixN4BiasFieldCorrection, self)._format_arg(
+        return super()._format_arg(
             name, trait_spec, value
         )
 
@@ -166,9 +166,9 @@ class FixN4BiasFieldCorrection(VanillaN4):
             newnii.to_filename(self._input_image)
             self._negative_values = True
 
-        return super(FixN4BiasFieldCorrection, self)._parse_inputs(skip=skip)
+        return super()._parse_inputs(skip=skip)
 
     def _list_outputs(self):
-        outputs = super(FixN4BiasFieldCorrection, self)._list_outputs()
+        outputs = super()._list_outputs()
         outputs["negative_values"] = self._negative_values
         return outputs

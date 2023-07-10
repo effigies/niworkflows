@@ -80,10 +80,10 @@ class StructuralReference(fs.RobustTemplate):
     def cmdline(self):
         if self._num_vols() == 1:
             return "echo Only one time point!"
-        return super(StructuralReference, self).cmdline
+        return super().cmdline
 
     def _list_outputs(self):
-        outputs = super(StructuralReference, self)._list_outputs()
+        outputs = super()._list_outputs()
         if self._num_vols() == 1:
             in_file = self.inputs.in_files[0]
             outputs["out_file"] = in_file
@@ -117,7 +117,7 @@ class MakeMidthickness(fs.MRIsExpand):
 
     @property
     def cmdline(self):
-        cmd = super(MakeMidthickness, self).cmdline
+        cmd = super().cmdline
         if not isdefined(self.inputs.graymid) or len(self.inputs.graymid) < 1:
             return cmd
 
@@ -217,7 +217,7 @@ class FSDetectInputs(SimpleInterface):
         return runtime
 
 
-class TruncateLTA(object):
+class TruncateLTA:
     """
     Truncate long filenames in LTA files.
 
@@ -247,7 +247,7 @@ class TruncateLTA(object):
 
             fix_lta_length(lta_file)
 
-        runtime = super(TruncateLTA, self)._post_run_hook(runtime)
+        runtime = super()._post_run_hook(runtime)
         return runtime
 
 
@@ -552,7 +552,7 @@ def medial_wall_to_nan(in_file, subjects_dir, den=None, newpath=None):
     if target_subject.startswith("fsaverage"):
         cortex = nb.freesurfer.read_label(
             os.path.join(
-                subjects_dir, target_subject, "label", "{}.cortex.label".format(fn[:2])
+                subjects_dir, target_subject, "label", f"{fn[:2]}.cortex.label"
             )
         )
         medial = np.delete(np.arange(len(func.darrays[0].data)), cortex)
@@ -578,7 +578,7 @@ def mri_info(fname, argument):
     import subprocess as sp
     import numpy as np
 
-    cmd_info = "mri_info --%s %s" % (argument, fname)
+    cmd_info = f"mri_info --{argument} {fname}"
     proc = sp.Popen(cmd_info, stdout=sp.PIPE, shell=True)
     data = bytearray(proc.stdout.read())
     mstring = np.fromstring(data.decode("utf-8"), sep="\n")
