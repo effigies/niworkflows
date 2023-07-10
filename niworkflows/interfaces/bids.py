@@ -52,7 +52,7 @@ from nipype.interfaces.io import add_traits
 import templateflow as tf
 from ..utils.bids import _init_layout, relative_to_root
 from ..utils.images import set_consumables, unsafe_write_nifti_header_and_data
-from ..utils.misc import _copy_any, unlink
+from ..utils.misc import _copy_any
 
 regz = re.compile(r"\.gz$")
 _pybids_spec = loads(Path(_pkgres("niworkflows", "data/nipreps.json")).read_text())
@@ -724,7 +724,7 @@ space-MNI152NLin6Asym_desc-preproc_bold.json'
                         new_header.set_data_dtype(data_dtype)
                 del nii
 
-            unlink(out_file, missing_ok=True)
+            out_file.unlink(missing_ok=True)
             if new_data is new_header is None:
                 _copy_any(orig_file, str(out_file))
             else:
@@ -754,7 +754,7 @@ space-MNI152NLin6Asym_desc-preproc_bold.json'
             )
             if self._metadata:
                 sidecar = out_file.parent / f"{out_file.name.split('.', 1)[0]}.json"
-                unlink(sidecar, missing_ok=True)
+                sidecar.unlink(missing_ok=True)
                 sidecar.write_text(dumps(self._metadata, sort_keys=True, indent=2))
                 self._results["out_meta"] = str(sidecar)
         return runtime
